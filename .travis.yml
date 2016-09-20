@@ -1,20 +1,24 @@
 language: bash
-
-# for secret experimental features ;)
-dist: trusty
+services: docker
 
 env:
+  - VERSION=3.6 VARIANT=
+  - VERSION=3.6 VARIANT=slim
+  - VERSION=3.6 VARIANT=alpine
+  - VERSION=3.5 VARIANT=
+  - VERSION=3.5 VARIANT=slim
+  - VERSION=3.5 VARIANT=alpine
   - VERSION=3.4 VARIANT=
   - VERSION=3.4 VARIANT=slim
+  - VERSION=3.4 VARIANT=alpine
   - VERSION=3.4 VARIANT=wheezy
   - VERSION=3.3 VARIANT=
   - VERSION=3.3 VARIANT=slim
+  - VERSION=3.3 VARIANT=alpine
   - VERSION=3.3 VARIANT=wheezy
-  - VERSION=3.2 VARIANT=
-  - VERSION=3.2 VARIANT=slim
-  - VERSION=3.2 VARIANT=wheezy
   - VERSION=2.7 VARIANT=
   - VERSION=2.7 VARIANT=slim
+  - VERSION=2.7 VARIANT=alpine
   - VERSION=2.7 VARIANT=wheezy
 
 install:
@@ -30,5 +34,8 @@ script:
   - ~/official-images/test/run.sh "$image"
 # the "onbuild" variant has to happen with the base variant because it's FROM it
   - true && [ "$VARIANT" ] || docker build -t "${image}-onbuild" onbuild
+
+after_script:
+  - docker images
 
 # vim:set et ts=2 sw=2:
